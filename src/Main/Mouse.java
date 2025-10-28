@@ -8,7 +8,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
- *
+ *  
+ * this is for the playing the ChessGame
+ * 
  * @author Job Rotoava and Jayden Tosul
  */
 

@@ -9,7 +9,7 @@ import Main.Type;
 
 /**
  *
- * @author User
+ * @author Jayden tosul
  */
 public class Pawn extends Piece {
     
