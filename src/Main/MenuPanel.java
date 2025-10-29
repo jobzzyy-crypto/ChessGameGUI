@@ -4,7 +4,6 @@
  */
 package Main;
 
-import DataBase.PlayerDB;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -85,7 +84,5 @@ public class MenuPanel extends JPanel {
         
         return button;
     }
-    
-    
     
 }

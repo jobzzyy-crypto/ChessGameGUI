@@ -28,6 +28,12 @@ public class MenuController implements ActionListener {
     private final PlayerDB playerDB;
     private final MenuPanel mp;
     
+    //boolean
+    private boolean quitGame;
+    
+    //JFrame
+    private JFrame frame;
+
     //constructor
     public MenuController(MenuPanel mp) {
         this.mp  = mp;
@@ -50,8 +56,8 @@ public class MenuController implements ActionListener {
     
     //starts the chessGame | calls boardPanel
     private void startBoardPanel() {
-        JFrame frame = new JFrame();
-         
+        frame = new JFrame("MyChessGame");
+
         BoardPanel board = new BoardPanel();//temporary
         WhitePlayerPanel whitePanel = new WhitePlayerPanel(board);
         BlackPlayerPanel blackPanel = new BlackPlayerPanel(board);
@@ -87,6 +93,7 @@ public class MenuController implements ActionListener {
         });
 
         frame.pack();
+        
     }
     
     //displays the rules, had help from ChatGPT

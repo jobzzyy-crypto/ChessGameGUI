@@ -22,8 +22,10 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Window;
 import java.util.ArrayList;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -37,12 +39,16 @@ public class BoardPanel extends JPanel implements Runnable {
     //object instances
     private WhitePlayerPanel wPlayer;
     private BlackPlayerPanel bPlayer;
-    
-    //gamethread / speed / mouse
-    final int FPS = 60;
-    Thread gameThread;
     ChessBoard board = new ChessBoard();
     Mouse mouse = new Mouse();
+    
+    //for retry & quit buttons
+    private int retry_pos_x1, retry_pos_x2, retry_pos_y1, retry_pos_y2;
+    private int quit_pos_x1, quit_pos_x2, quit_pos_y1, quit_pos_y2;
+    
+    //gamethread / speed
+    final int FPS = 60;
+    Thread gameThread;
     
     //color
     public static final int WHITE = 1;
@@ -75,8 +81,8 @@ public class BoardPanel extends JPanel implements Runnable {
     //CONSTRUCTOR
     public BoardPanel() {
         this.setFocusable(true);
-        setPreferredSize(new Dimension(panelWidth, panelHeight));
         this.setBackground(new Color(158, 83, 38));
+        setPreferredSize(new Dimension(panelWidth, panelHeight));
         addMouseListener(mouse);    //mouse functionality
         addMouseMotionListener(mouse);
         
@@ -90,6 +96,22 @@ public class BoardPanel extends JPanel implements Runnable {
         
         copyPieces(pieces, simPieces);
         
+    }
+    
+    //basically restarting the game
+    private void resetToDefault() {
+        pieces.clear();//clears pieces
+        simPieces.clear();
+        capturedP.clear();
+        setPieces();
+        copyPieces(pieces, simPieces);
+        castlingP = null;
+        activeP = null;
+        gameOver = false;
+        stalemate = false;
+        abortGame = false;
+        
+        currentColor = WHITE;
     }
     
     public void setDidWhiteResign(int color) {
@@ -302,8 +324,13 @@ public class BoardPanel extends JPanel implements Runnable {
 
             }
             
-        }
+        } else if (gameOver || abortGame || stalemate) {
+            if (mouse.pressed) {
+                gameOverScreenOptions();
+            }
 
+        }
+        
     }
     
     private void simulate() {    //simulates the players movement
@@ -546,6 +573,11 @@ public class BoardPanel extends JPanel implements Runnable {
         return false;
     }
     
+    //-------------- ABORT GAME ------------------
+    public void abortGame() {
+        abortGame = true;
+    }
+    
     //------------ CHECKING CASTLING ----------------
     private void checkCastling() {
         
@@ -676,12 +708,46 @@ public class BoardPanel extends JPanel implements Runnable {
         recomputeCheckForSideToMove();  //checks and resets the checkingP
     }
     
-    //abortButton
-    public void abortGame() {
-        abortGame = true;
+    
+    //======================= GAMEOVER SCREEN ==========================
+    
+    //sets the retry & quit Buttons
+    private void setRetryPosition(int x1, int x2, int y1, int y2) {
+        retry_pos_x1 = x1;
+        retry_pos_x2 = x2;
+        retry_pos_y1 = y1;
+        retry_pos_y2 = y2;
+    }
+    private void setQuitPosition(int x1, int x2, int y1, int y2) {
+        quit_pos_x1 = x1;
+        quit_pos_x2 = x2;
+        quit_pos_y1 = y1;
+        quit_pos_y2 = y2;
+        
     }
     
-    
+    //gameOver screen, player choose to retry or quit
+    private void gameOverScreenOptions() {
+        //restart game
+        if (mouse.x > retry_pos_x1 && mouse.x < retry_pos_x2 &&
+                mouse.y > retry_pos_y1 && mouse.y < retry_pos_y2) {
+            
+            System.out.println("retry");
+            resetToDefault();//resets everything
+            
+        }
+
+        //quitButton
+        if (mouse.x > quit_pos_x1 && mouse.x < quit_pos_x2
+                && mouse.y > quit_pos_y1 && mouse.y < quit_pos_y2) {
+
+            System.out.println("quit");
+            resetToDefault();//call this just to be safe
+            Window w = SwingUtilities.getWindowAncestor(this);
+            w.dispose();
+        }
+
+    }
     
     
     
@@ -800,7 +866,7 @@ public class BoardPanel extends JPanel implements Runnable {
         drawRetryQuitButton(g2, square, fm, cx, cy);//retry and quit buttons
     }
     
-    //draw quit and retry button when gameOver
+    //draw quit and retry button when gameOver | sets the retry&quit button positons
     private void drawRetryQuitButton(Graphics2D g2, int square, FontMetrics fm, int cx, int cy) {
         String retry = "Retry";
         String quit = "Quit";
@@ -812,6 +878,18 @@ public class BoardPanel extends JPanel implements Runnable {
         g2.setColor(Color.WHITE);
         g2.drawString(retry, cx, cy);
         
+        //sets retryButton position on BoardPanel
+        int textHeight = fm.getAscent() + fm.getDescent();
+        int x1 = cx;
+        int x2 = cx + textWidth;
+        int y1 = cy - textHeight + fm.getDescent();
+        int y2 = y1 + textHeight;
+        setRetryPosition(x1, x2, y1, y2);
+        
+        //debugging to find actual text-hitBox
+//        g2.setColor(new Color(245, 43, 0, 180));
+//        g2.fillRect(x1, y1, x2 - x1, y2 - y1);
+        
         //draws quit
         textWidth = fm.stringWidth(quit);
         cx = (square - textWidth) / 2 + 80;
@@ -819,6 +897,13 @@ public class BoardPanel extends JPanel implements Runnable {
         g2.setColor(Color.WHITE);
         g2.drawString(quit, cx, cy);
         
+        //sets quitButton position on BoardPanel
+        x1 = cx;
+        x2 = cx + textWidth;
+        setQuitPosition(x1, x2, y1, y2);
+        
+//        g2.setColor(new Color(245, 43, 0, 180));
+//        g2.fillRect(x1, y1, x2, y2);
     }
     
 }
