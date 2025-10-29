@@ -56,23 +56,23 @@ public class PlayerDB {
     
     //retrieves userdata from the database
     private ResultSet getPlayerData() {
-        return dbmanager.queryPlayerDB("SELECT * FROM USERINFO");
+        return dbmanager.queryPlayerDB("SELECT * FROM CHESSPLAYERDB");
     }
     
     //creates the userinfo table
     public final void createUserInfoTable() {
-        if (!checkTableExist("USERINFO")) {
-            String createTableSQL = "CREATE TABLE USERINFO"
+        if (!checkTableExist("CHESSPLAYERDB")) {
+            String createTableSQL = "CREATE TABLE CHESSPLAYERDB"
                     + "(USERID VARCHAR(12), "
                     + "PASSWORD VARCHAR(12), "
                     + "SCORE INT)";
             
             //creates the userinfo table
             dbmanager.executeStatement(createTableSQL);
-            System.out.println("USERINFO TABLE CREATED");
+            System.out.println("CHESSPLAYERDB TABLE CREATED");
             
         } else {
-            System.out.println("USERINFO TABLE EXISTS");
+            System.out.println("CHESSPLAYERDB TABLE EXISTS");
         }
         
     }
