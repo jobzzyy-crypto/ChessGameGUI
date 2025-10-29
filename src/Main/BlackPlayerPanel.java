@@ -120,8 +120,6 @@ public class BlackPlayerPanel extends JPanel {
             g2.fillRoundRect(panelWidth - 70, 10, 60, 35, 10, 7);
         }
         
-        //
-        
     }
     
 }

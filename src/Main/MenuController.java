@@ -11,6 +11,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -44,6 +46,8 @@ public class MenuController implements ActionListener {
         
     }
     
+    //checking player login
+    
     //starts the chessGame | calls boardPanel
     private void startBoardPanel() {
         JFrame frame = new JFrame();
@@ -55,7 +59,7 @@ public class MenuController implements ActionListener {
         board.setWhiteBlackPanel(whitePanel, blackPanel);
 
         frame.setSize(720, 760);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setResizable(false);
@@ -65,6 +69,23 @@ public class MenuController implements ActionListener {
         frame.add(whitePanel, BorderLayout.SOUTH);
         board.launchGame();
         
+        //if both players want to abandon the game
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int choice = JOptionPane.showConfirmDialog(
+                        frame,
+                        "Are you sure you want to quit?",
+                        "Confirm Exit",
+                        JOptionPane.YES_NO_OPTION
+                );
+                
+                if (choice == JOptionPane.YES_OPTION) {
+                    frame.dispose(); // or System.exit(0);
+                }
+            }
+        });
+
         frame.pack();
     }
     
@@ -102,7 +123,7 @@ public class MenuController implements ActionListener {
         textArea.setBackground(new Color(240, 240, 240));
         
         JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new Dimension(500, 400));
+        scrollPane.setPreferredSize(new Dimension(600, 600));
         
         JOptionPane.showMessageDialog(
             null,

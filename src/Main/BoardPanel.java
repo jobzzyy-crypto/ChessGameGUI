@@ -35,8 +35,8 @@ public class BoardPanel extends JPanel implements Runnable {
     public final int panelHeight = 640;
     
     //object instances
-    WhitePlayerPanel wPlayer;
-    BlackPlayerPanel bPlayer;
+    private WhitePlayerPanel wPlayer;
+    private BlackPlayerPanel bPlayer;
     
     //gamethread / speed / mouse
     final int FPS = 60;
@@ -48,6 +48,10 @@ public class BoardPanel extends JPanel implements Runnable {
     public static final int WHITE = 1;
     public static final int BLACK = 0;
     public int currentColor = WHITE;
+    
+    //fonts
+    private final Font gOverFont1 = new Font("Calibri", Font.BOLD, 80);
+    private final Font gOverFont2 = new Font("Calibri", Font.PLAIN, 30);
     
     //BOOLEANS
     boolean canMove;
@@ -76,12 +80,13 @@ public class BoardPanel extends JPanel implements Runnable {
         addMouseListener(mouse);    //mouse functionality
         addMouseMotionListener(mouse);
         
+        pieces.clear();//clears the list so a new list is loaded every new game
+        
         //places the chess pieces
         setPieces();
 //        testing();
 //        checkMate();
 //        promotingPiece();
-        
         
         copyPieces(pieces, simPieces);
         
@@ -216,6 +221,7 @@ public class BoardPanel extends JPanel implements Runnable {
                 repaint();
                 delta--;
             }
+            
         }
         
     }
@@ -689,6 +695,7 @@ public class BoardPanel extends JPanel implements Runnable {
     
     
     
+    
     //============================ PAINT COMPONENT ============================
     
     @Override
@@ -743,84 +750,75 @@ public class BoardPanel extends JPanel implements Runnable {
         }
 
         // -------------------------- GAMEOVER ------------------------------
-        //ChessBoard size
-        int square = ChessBoard.SQUARE_SIZE * 8;
+        String s, s2;
         if (gameOver) {
-            String s2 = (currentColor == WHITE) ? "By White" : "By Black";
-            String s = "CHECKMATE";
-
-            //centering
-            FontMetrics fm = g2.getFontMetrics(new Font("Calibri", Font.BOLD, 80));
-            int textWidth = fm.stringWidth(s);
-            int cx = (square - textWidth) / 2;
-            int cy = square / 2 - 12;
-            
-            g2.setFont(new Font("Calibri", Font.BOLD, 80));
-            g2.setColor(new Color(8, 204, 8));
-            g2.drawString(s, cx, cy);
-            
-            FontMetrics fm2 = g2.getFontMetrics(new Font("Calibri", Font.PLAIN, 30));
-            int textWidth2 = fm2.stringWidth(s2);
-            g2.setFont(new Font("Calibri", Font.PLAIN, 30));
-            g2.setColor(new Color(8, 204, 8));
-            
-            //rough center
-            int cx2 = (square - textWidth2) / 2;
-            int cy2 = square / 2 + 30;
-            g2.drawString(s2, cx2, cy2);
+            s2 = (currentColor == WHITE) ? "By White" : "By Black";
+            s = "CHECKMATE";
+            gameOverScreen(g2, s, s2);
         }
         //stalemate
         if (stalemate) {
-            String s2 = "Draw";
-            String s = "STALEMATE";
-
-            //centering
-            FontMetrics fm = g2.getFontMetrics(new Font("Calibri", Font.BOLD, 80));
-            int textWidth = fm.stringWidth(s);
-            int cx = (square - textWidth) / 2;
-            int cy = square / 2 - 12;
-            
-            g2.setFont(new Font("Calibri", Font.BOLD, 80));
-            g2.setColor(new Color(8, 204, 8));
-            g2.drawString(s, cx, cy);
-            
-            FontMetrics fm2 = g2.getFontMetrics(new Font("Calibri", Font.PLAIN, 30));
-            int textWidth2 = fm2.stringWidth(s2);
-            g2.setFont(new Font("Calibri", Font.PLAIN, 30));
-            g2.setColor(new Color(8, 204, 8));
-            
-            //rough center
-            int cx2 = (square - textWidth2) / 2;
-            int cy2 = square / 2 + 30;
-            g2.drawString(s2, cx2, cy2);
+            s2 = "Draw";
+            s = "STALEMATE";
+            gameOverScreen(g2, s, s2);
         }
         //abortGame
         if (abortGame) {
-            String s2 = "by Resignation";
-            String s = (didWhiteResign == WHITE) ? "BLACK WINS" : "WHITE WINS";
-
-            //centering
-            FontMetrics fm = g2.getFontMetrics(new Font("Calibri", Font.BOLD, 80));
-            int textWidth = fm.stringWidth(s);
-            int cx = (square - textWidth) / 2;
-            int cy = square / 2 - 12;
-            
-            g2.setFont(new Font("Calibri", Font.BOLD, 80));
-            g2.setColor(new Color(8, 204, 8));
-            g2.drawString(s, cx, cy);
-            
-            FontMetrics fm2 = g2.getFontMetrics(new Font("Calibri", Font.PLAIN, 30));
-            int textWidth2 = fm2.stringWidth(s2);
-            g2.setFont(new Font("Calibri", Font.PLAIN, 30));
-            g2.setColor(new Color(8, 204, 8));
-            
-            //rough center
-            int cx2 = (square - textWidth2) / 2;
-            int cy2 = square / 2 + 30;
-            g2.drawString(s2, cx2, cy2);
+            s2 = "by Resignation";
+            s = (didWhiteResign == WHITE) ? "BLACK WINS" : "WHITE WINS";
+            gameOverScreen(g2, s, s2);
         }
 
         g2.dispose();
     }
+    
+    //drawing the GameOver screen
+    private void gameOverScreen(Graphics2D g2, String s, String s2) {
+        int square = ChessBoard.SQUARE_SIZE * 8;//for positioning
+        
+        //background
+        g2.setColor(new Color(0, 0, 0, 180));
+        g2.fillRect(0, 220, panelWidth, 200);
 
+        //draw header1
+        g2.setFont(gOverFont1);
+        FontMetrics fm = g2.getFontMetrics();
+        int textWidth = fm.stringWidth(s);
+        int cx = (square - textWidth) / 2;
+        int cy = square / 2 - 12;
+        g2.setColor(new Color(8, 204, 8));
+        g2.drawString(s, cx, cy);
+
+        //draws header2
+        g2.setFont(gOverFont2);
+        fm = g2.getFontMetrics();
+        textWidth = fm.stringWidth(s2);
+        cx = (square - textWidth) / 2;
+        cy = square / 2 + 30;
+        g2.drawString(s2, cx, cy);
+
+        drawRetryQuitButton(g2, square, fm, cx, cy);//retry and quit buttons
+    }
+    
+    //draw quit and retry button when gameOver
+    private void drawRetryQuitButton(Graphics2D g2, int square, FontMetrics fm, int cx, int cy) {
+        String retry = "Retry";
+        String quit = "Quit";
+        
+        //draws Retry
+        int textWidth = fm.stringWidth(retry);
+        cx = (square - textWidth) / 2 - 80;
+        cy = square / 2 + 80;
+        g2.setColor(Color.WHITE);
+        g2.drawString(retry, cx, cy);
+        
+        //draws quit
+        textWidth = fm.stringWidth(quit);
+        cx = (square - textWidth) / 2 + 80;
+        cy = square / 2 + 80;
+        g2.setColor(Color.WHITE);
+        g2.drawString(quit, cx, cy);
+        
+    }
+    
 }

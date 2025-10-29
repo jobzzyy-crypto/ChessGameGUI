@@ -59,12 +59,12 @@ public class MenuPanel extends JPanel {
         //create options button
         JButton optionButton = createButton("Rules");
         optionButton.setActionCommand("RULES");
-        rankedButton.addActionListener(mc);
+        optionButton.addActionListener(mc);
         
         //create exit button
         JButton exitButton = createButton("Exit");
-        optionButton.setActionCommand("EXIT");
-        rankedButton.addActionListener(mc);
+        exitButton.setActionCommand("EXIT");
+        exitButton.addActionListener(mc);
         
         //add buttons to panel
         buttonPanel.add(rankedButton);
