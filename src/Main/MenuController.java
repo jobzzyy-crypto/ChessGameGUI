@@ -11,8 +11,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -29,7 +27,7 @@ public class MenuController implements ActionListener {
     private final MenuPanel mp;
     
     //boolean
-    private boolean quitGame;
+    private static boolean oneJFrameInstance;
     
     //JFrame
     private JFrame frame;
@@ -52,47 +50,40 @@ public class MenuController implements ActionListener {
         
     }
     
+    //resets the boolean so can play again
+    public static void setOneJFrameInstanceFalse() {
+        oneJFrameInstance = false;
+    }
+    
     //checking player login
     
     //starts the chessGame | calls boardPanel
     private void startBoardPanel() {
-        frame = new JFrame("MyChessGame");
-
-        BoardPanel board = new BoardPanel();//temporary
-        WhitePlayerPanel whitePanel = new WhitePlayerPanel(board);
-        BlackPlayerPanel blackPanel = new BlackPlayerPanel(board);
         
-        board.setWhiteBlackPanel(whitePanel, blackPanel);
+        if (!oneJFrameInstance) {
+            frame = new JFrame("MyChessGame");
 
-        frame.setSize(720, 760);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        frame.setResizable(false);
-        
-        frame.add(board, BorderLayout.CENTER);
-        frame.add(blackPanel, BorderLayout.NORTH);
-        frame.add(whitePanel, BorderLayout.SOUTH);
-        board.launchGame();
-        
-        //if both players want to abandon the game
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                int choice = JOptionPane.showConfirmDialog(
-                        frame,
-                        "Are you sure you want to quit?",
-                        "Confirm Exit",
-                        JOptionPane.YES_NO_OPTION
-                );
-                
-                if (choice == JOptionPane.YES_OPTION) {
-                    frame.dispose(); // or System.exit(0);
-                }
-            }
-        });
+            BoardPanel board = new BoardPanel();//temporary
+            WhitePlayerPanel whitePanel = new WhitePlayerPanel(board);
+            BlackPlayerPanel blackPanel = new BlackPlayerPanel(board);
 
-        frame.pack();
+            board.setWhiteBlackPanel(whitePanel, blackPanel);
+
+            frame.setSize(720, 760);
+            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            frame.setResizable(false);
+
+            frame.add(board, BorderLayout.CENTER);
+            frame.add(blackPanel, BorderLayout.NORTH);
+            frame.add(whitePanel, BorderLayout.SOUTH);
+            board.launchGame();
+            frame.pack();
+            
+            oneJFrameInstance = true;//make sures theres only one instance of this
+            
+        }
         
     }
     

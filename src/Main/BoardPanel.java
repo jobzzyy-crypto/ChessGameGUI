@@ -89,10 +89,10 @@ public class BoardPanel extends JPanel implements Runnable {
         pieces.clear();//clears the list so a new list is loaded every new game
         
         //places the chess pieces
-        setPieces();
+//        setPieces();
 //        testing();
 //        checkMate();
-//        promotingPiece();
+        promotingPiece();
         
         copyPieces(pieces, simPieces);
         
@@ -112,6 +112,7 @@ public class BoardPanel extends JPanel implements Runnable {
         abortGame = false;
         
         currentColor = WHITE;
+        
     }
     
     public void setDidWhiteResign(int color) {
@@ -510,12 +511,12 @@ public class BoardPanel extends JPanel implements Runnable {
 
 
         //king cant move, checkmate
-        System.err.println("NO Legal Moves or Captures");
-        System.err.println("CHECKMATE");
+        System.out.println("NO Legal Moves or Captures");
+        System.out.println("CHECKMATE");
         return true;
     }
     private boolean kingCanMove(Piece king) {
-        System.err.println("Checking: kingCanMove()");
+        System.out.println("Checking: kingCanMove()");
         
         //checks all the king moves
         if (isKingValidMove(king, -1, -1)) {return true;}
@@ -527,7 +528,7 @@ public class BoardPanel extends JPanel implements Runnable {
         if (isKingValidMove(king, -1, 1)) {return true;}
         if (isKingValidMove(king, -1, 0)) {return true;}
         
-        System.err.println("King Cannot Move");
+        System.out.println("King Cannot Move");
         return false;
     }
     private boolean isKingValidMove(Piece king, int colPlus, int rowPlus) {
@@ -549,7 +550,7 @@ public class BoardPanel extends JPanel implements Runnable {
         king.resetPosition();
         copyPieces(pieces, simPieces);
         
-        System.err.println("isValideMove(): " + isValidMove);
+        System.out.println("isValideMove(): " + isValidMove);
         return isValidMove;
     }
     
@@ -745,6 +746,8 @@ public class BoardPanel extends JPanel implements Runnable {
             resetToDefault();//call this just to be safe
             Window w = SwingUtilities.getWindowAncestor(this);
             w.dispose();
+            
+            MenuController.setOneJFrameInstanceFalse();
         }
 
     }

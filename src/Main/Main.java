@@ -12,13 +12,13 @@ package Main;
 import javax.swing.JFrame;
 
 public class Main {
-
+    
     public static void main(String[] args) {
 
         JFrame frame = new JFrame("MyChessGameGUI");
-
-        MenuPanel menuPanel = new MenuPanel();
         
+        MenuPanel menuPanel = new MenuPanel();
+
         frame.add(menuPanel);
         frame.setSize(450, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
