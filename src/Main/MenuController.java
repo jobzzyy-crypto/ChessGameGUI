@@ -18,7 +18,7 @@ public class MenuController implements ActionListener {
     private int playerCount = 0;
     
     //instance Objects
-    private final PlayerDB playerDB;
+    private static PlayerDB playerDB = null;
     private final MenuPanel mp;
     
     //Static Variables
@@ -53,8 +53,30 @@ public class MenuController implements ActionListener {
         
     }
     
-    //updates the player score
+    //updates the player score when press retry
+    public static void updateScore() {
+        System.out.println(BoardPanel.WINNER);
+        
+        switch(BoardPanel.WINNER) {
+            case 0 -> {
+                p2Score += 10;//if below zero then 0
+                p1Score = (p1Score - 5 < 0) ? 0 : (p1Score -= 5);
+            }
+            case 1 -> {
+                p1Score += 10;
+                p2Score = (p2Score - 5 < 0) ? 0 : (p2Score -= 5);
+            }
+        }
+        
+        System.out.println("White PlayerScore: " + p1Score);
+        System.out.println("Black PlayerScore: " + p2Score);
+    }
     
+    //update playerDataBase when press quit
+    public static void updatePlayerDatabase() {
+        playerDB.updateUserScore(p1Name, p1Score);
+        playerDB.updateUserScore(p2Name, p2Score);
+    }
     
     //calls login for both players
     private void login() {
@@ -100,27 +122,16 @@ public class MenuController implements ActionListener {
     private void setPlayerNames(String name) {
         //sets name based on playerCount
         switch(playerCount) {
-            case 1 -> {//get score first b4 set name coz we capitaliez 1st letter
+            case 1 -> {
+                p1Name  = name;
                 p1Score = playerDB.getPlayerScore(name);
-                p1Name  = capitalizeFirstLetter(name);
             }
             case 2 -> {
+                p2Name  = name;
                 p2Score = playerDB.getPlayerScore(name);
-                p2Name  = capitalizeFirstLetter(name);
             }
         }
         
-    }
-    
-    //this is just a helper method to capitalize the first letter for displaying
-    private String capitalizeFirstLetter(String name) {
-        String s = (name.charAt(0) + "").toUpperCase();//capitalize first letter
-        //adds the rest to string
-        for (int i = 1; i < name.length(); i++) {
-            s = s + name.charAt(i);
-        }
-        
-        return s;
     }
     
     //closes the game and connection to database
@@ -129,7 +140,7 @@ public class MenuController implements ActionListener {
         System.exit(0);
     }
     
-    //when player selects retry
+    //when player selects quit
     public static void resetPlayerNamesScore() {
         p1Name = null;
         p2Name = null;

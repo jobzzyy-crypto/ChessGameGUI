@@ -26,8 +26,8 @@ public class PlayerDB {
         dbmanager = new DataBaseManager();
         conn = dbmanager.getConnection();
         
-        //creates the userinfo table
-        createUserInfoTable();
+        //creates the chessPlayerInfo table
+        createChessPlayerInfoTable();
         
     }
     
@@ -59,8 +59,8 @@ public class PlayerDB {
         return dbmanager.queryPlayerDB("SELECT * FROM CHESSPLAYERDB");
     }
     
-    //creates the userinfo table
-    public final void createUserInfoTable() {
+    //creates the createchessPlayerInfoTable table
+    public final void createChessPlayerInfoTable() {
         if (!checkTableExist("CHESSPLAYERDB")) {
             String createTableSQL = "CREATE TABLE CHESSPLAYERDB"
                     + "(USERID VARCHAR(12), "
@@ -107,7 +107,7 @@ public class PlayerDB {
     
     //creates a new user/player
     public void createNewUser(String name, String password, int score) {
-        String sql = "INSERT INTO USERINFO VALUES"
+        String sql = "INSERT INTO CHESSPLAYERDB VALUES"
                 + "('" + name + "', '" + password + "', " + score + ")";
         
         dbmanager.executeStatement(sql);
@@ -142,7 +142,7 @@ public class PlayerDB {
     
     //updates the user informations (score)
     public void updateUserScore(String name, int score) {
-        String updateSQL = "UPDATE USERINFO "
+        String updateSQL = "UPDATE CHESSPLAYERDB "
                 + "SET SCORE = " + score + " "
                 + "WHERE USERID = '" + name.toLowerCase() + "'";
         

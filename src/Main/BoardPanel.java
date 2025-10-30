@@ -119,6 +119,9 @@ public class BoardPanel extends JPanel implements Runnable {
         WINNER = -1;
         currentColor = WHITE;
         
+        bPlayer.updateScore();
+        wPlayer.updateScore();
+        
         repaintPlayerPanels();//call repaint to reset playerPanel screen
     }
     
@@ -600,9 +603,9 @@ public class BoardPanel extends JPanel implements Runnable {
         if (instanceCount == 0) {
             instanceCount = 1;
             repaintPlayerPanels();
+            MenuController.updateScore();
         }
         
-        System.out.println(WINNER);
     }
     
     //------------ CHECKING CASTLING ----------------
@@ -774,6 +777,7 @@ public class BoardPanel extends JPanel implements Runnable {
             w.dispose();
             
             MenuController.setOneJFrameInstanceFalse();
+            MenuController.updatePlayerDatabase();
             MenuController.resetPlayerNamesScore();
         }
 

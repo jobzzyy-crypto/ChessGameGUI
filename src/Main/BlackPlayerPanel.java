@@ -22,8 +22,8 @@ public class BlackPlayerPanel extends JPanel {
     private final BoardPanel board;
     
     //instance variables
-    private final String b_name = MenuController.getP2Name();
-    private final int b_score = MenuController.getP2Score();
+    private String b_name;
+    private int b_score;
     
     //integer sizes
     private final int panelWidth;
@@ -42,6 +42,8 @@ public class BlackPlayerPanel extends JPanel {
     public BlackPlayerPanel(BoardPanel board) {
         this.board = board;
         this.panelWidth = board.panelWidth;
+        setB_name();//sets playerName
+        setB_score();//sets player score
         
         setBackground(new Color(0x222222));
         setPreferredSize(new Dimension(panelWidth, panelHeight));
@@ -59,6 +61,29 @@ public class BlackPlayerPanel extends JPanel {
             board.abortGame();
         });
         
+    }
+    
+    //getters for the playerSCore
+    private void setB_score() {
+        b_score = MenuController.getP2Score();
+    }
+    public void updateScore() {//when restart game
+        b_score = MenuController.getP2Score();
+    }
+    //sets the player name
+    private void setB_name() {
+        b_name = capitalizeFirstLetter(MenuController.getP2Name());
+    }
+    
+    //this is just a helper method to capitalize the first letter for displaying
+    private String capitalizeFirstLetter(String name) {
+        String s = (name.charAt(0) + "").toUpperCase();//capitalize first letter
+        //adds the rest to string
+        for (int i = 1; i < name.length(); i++) {
+            s = s + name.charAt(i);
+        }
+        
+        return s;
     }
     
     //gets Image
