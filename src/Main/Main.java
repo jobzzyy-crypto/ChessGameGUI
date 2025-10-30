@@ -20,7 +20,7 @@ public class Main {
         MenuPanel menuPanel = new MenuPanel();
 
         frame.add(menuPanel);
-        frame.setSize(450, 500);
+        frame.setSize(450, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);

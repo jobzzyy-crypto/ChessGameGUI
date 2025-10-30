@@ -16,6 +16,7 @@ public class MenuController implements ActionListener {
     
     //instance variables
     private int playerCount = 0;
+    private int createUserInstance = 0;
     
     //instance Objects
     private static PlayerDB playerDB = null;
@@ -49,6 +50,41 @@ public class MenuController implements ActionListener {
             case "RULES"    -> rules();
             case "EXIT"     -> closeGame();
             case "LOGIN"    -> checkLoginDetails();
+            case "NEWUSER"  -> newUser();
+            case "CREATE"   -> createNewPlayer();
+        }
+        
+    }
+    
+    //creates new user
+    private void newUser() {
+        if (createUserInstance == 0) {
+            createUserInstance = 1;
+            mp.createNewUser();
+        }
+        if (!mp.loginFrame.isActive()) {
+            createUserInstance = 0;
+        }
+    }
+    
+    //creates the new user
+    private void createNewPlayer() {
+        String name = mp.getUserName().toLowerCase().trim();
+        String password = mp.getCreatePassword();
+        
+        if (name.equalsIgnoreCase(" ") || password.equals(" ")
+                || name.isEmpty() || password.isEmpty()) {
+            mp.emptyPassword();
+        } else if (name.length() > 12 || password.length() > 12) {
+            mp.passwordTooLong();
+        }
+        //creates new user
+        else {
+            //sets newUser score to 0
+            playerDB.createNewUser(name, password, 0);
+            mp.disposeLoginFrame();
+            
+            System.out.println(name + "\n" + password);
         }
         
     }

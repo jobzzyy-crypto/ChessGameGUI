@@ -94,9 +94,9 @@ public class BoardPanel extends JPanel implements Runnable {
         pieces.clear();//clears the list so a new list is loaded every new game
         
         //places the chess pieces
-//        setPieces();
+        setPieces();
 //        testing();
-        checkMate();
+//        checkMate();
 //        promotingPiece();
         
         copyPieces(pieces, simPieces);

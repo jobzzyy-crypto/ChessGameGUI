@@ -41,11 +41,13 @@ public class MenuPanel extends JPanel {
     private JScrollPane scrollPane;
     private JTextField userName;
     private JPasswordField userPassword;
+    private JTextField createPassword;
+    private JButton createNewUserButton;
     private JButton loginButton;
     private final JDialog loginDialog = new JDialog();
     
     //JFrames
-    private JFrame loginFrame;
+    public JFrame loginFrame;
     private JFrame frame;
     
     //JPanel
@@ -67,7 +69,7 @@ public class MenuPanel extends JPanel {
         
         //buttonPanel
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(3, 1, 0, 20));
+        buttonPanel.setLayout(new GridLayout(4, 1, 0, 20));
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 100, 100, 100));
         
@@ -86,8 +88,13 @@ public class MenuPanel extends JPanel {
         exitButton.setActionCommand("EXIT");
         exitButton.addActionListener(mc);
         
+        JButton createUserButton = createButton("Create User");
+        createUserButton.setActionCommand("NEWUSER");
+        createUserButton.addActionListener(mc);
+        
         //add buttons to panel
         buttonPanel.add(rankedButton);
+        buttonPanel.add(createUserButton);
         buttonPanel.add(optionButton);
         buttonPanel.add(exitButton);
         
@@ -103,6 +110,9 @@ public class MenuPanel extends JPanel {
     }
     public String getPassword() {
         return userPassword.getText();
+    }
+    public String getCreatePassword() {//gets new password 4 new user
+        return createPassword.getText();
     }
     
     //method for creating the buttons
@@ -185,6 +195,56 @@ public class MenuPanel extends JPanel {
         
     }
     
+    public void createNewUser() {
+        loginFrame = new JFrame("Create User Login");
+        loginPanel = new JPanel(new GridBagLayout());
+        loginPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // padding around
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // --- Username Label ---
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        loginPanel.add(new JLabel("Username:"), gbc);
+
+        // --- Username Field ---
+        userName = new JTextField(15);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        loginPanel.add(userName, gbc);
+
+        // --- Password Label ---
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        loginPanel.add(new JLabel("Password:"), gbc);
+
+        // --- Password Field ---
+        createPassword = new JTextField(15);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        loginPanel.add(createPassword, gbc);
+
+        // --- Login Button ---
+        createNewUserButton = new JButton("Create");
+        createNewUserButton.setActionCommand("CREATE");
+        createNewUserButton.addActionListener(mc);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        loginPanel.add(createNewUserButton, gbc);
+
+        // --- Frame Setup ---
+        loginFrame.add(loginPanel);
+        loginFrame.pack();
+        loginFrame.setLocationRelativeTo(null);
+        loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        loginFrame.setResizable(false);
+        loginFrame.setVisible(true);
+    }
+    
     public void disposeLoginFrame() {
         loginFrame.dispose();
     }
@@ -192,6 +252,15 @@ public class MenuPanel extends JPanel {
     //display wrong credentials
     public void wrongCredentials() {
         JOptionPane.showMessageDialog(loginDialog, "Invalid credentials!");
+    }
+    public void emptyPassword() {
+        JOptionPane.showMessageDialog(loginDialog, """
+                                                   Name or Password cannot be
+                                                                    empty""");
+    }
+    
+    public void passwordTooLong() {
+        JOptionPane.showMessageDialog(loginDialog, "Name or Password too long");
     }
     
     //calls boardPanel to startGame
