@@ -52,7 +52,7 @@ public class MenuController implements ActionListener {
         switch(cmd) {
             case "PLAY"     -> login();
             case "RULES"    -> rules();
-            case "EXIT"     -> System.exit(0);
+            case "EXIT"     -> closeGame();
             case "LOGIN"    -> checkLoginDetails();
         }
         
@@ -100,17 +100,43 @@ public class MenuController implements ActionListener {
     
     //sets the player1 and player2 names and scores
     private void setPlayerNames(String name) {
-        switch(playerCount) {//sets name based on playerCount
-            case 1 -> {
-                p1Name  = name;
+        //sets name based on playerCount
+        switch(playerCount) {
+            case 1 -> {//get score first b4 set name coz we capitaliez 1st letter
                 p1Score = playerDB.getPlayerScore(name);
+                p1Name  = capitalizeFirstLetter(name);
             }
             case 2 -> {
-                p2Name  = name;
                 p2Score = playerDB.getPlayerScore(name);
+                p2Name  = capitalizeFirstLetter(name);
             }
         }
         
+    }
+    
+    //this is just a helper method to capitalize the first letter for displaying
+    private String capitalizeFirstLetter(String name) {
+        String s = (name.charAt(0) + "").toUpperCase();//capitalize first letter
+        //adds the rest to string
+        for (int i = 1; i < name.length(); i++) {
+            s = s + name.charAt(i);
+        }
+        
+        return s;
+    }
+    
+    //closes the game and connection to database
+    private void closeGame() {
+        playerDB.closeConnection();
+        System.exit(0);
+    }
+    
+    //when player selects retry
+    public static void resetPlayerNamesScore() {
+        p1Name = null;
+        p2Name = null;
+        p1Score = 0;
+        p2Score = 0;
     }
     
     //launches game when both players are logged in

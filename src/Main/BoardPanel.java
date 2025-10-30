@@ -748,6 +748,7 @@ public class BoardPanel extends JPanel implements Runnable {
             w.dispose();
             
             MenuController.setOneJFrameInstanceFalse();
+            MenuController.resetPlayerNamesScore();
         }
 
     }
