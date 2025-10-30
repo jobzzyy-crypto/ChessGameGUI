@@ -6,15 +6,9 @@ package Main;
 
 import DataBase.PlayerDB;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 /**
  *
@@ -22,12 +16,19 @@ import javax.swing.JTextArea;
  */
 public class MenuController implements ActionListener {
     
+    //instance variables
+    private int playerCount = 0;
+    
     //instance Objects
     private final PlayerDB playerDB;
     private final MenuPanel mp;
     
-    //boolean
+    //Static Variables
     private static boolean oneJFrameInstance;
+    private static String p1Name;
+    private static String p2Name;
+    private static int p1Score;
+    private static int p2Score;
     
     //JFrame
     private JFrame frame;
@@ -37,25 +38,90 @@ public class MenuController implements ActionListener {
         this.mp  = mp;
         playerDB = new PlayerDB();
     }
+    
+    //getters for playerName and playerScore
+    public static String getP1Name() {return p1Name;}
+    public static String getP2Name() {return p2Name;}
+    public static int getP1Score() {return p1Score;}
+    public static int getP2Score() {return p2Score;}
 
     @Override
     public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
         
         switch(cmd) {
-            case "PLAY" -> startBoardPanel();
-            case "RULES" -> rules();
-            case "EXIT" -> System.exit(0);
+            case "PLAY"     -> login();
+            case "RULES"    -> rules();
+            case "EXIT"     -> System.exit(0);
+            case "LOGIN"    -> checkLoginDetails();
         }
         
+    }
+    
+    //calls login for both players
+    private void login() {
+        if (playerCount < 2 && playerCount >= 0) {
+            playerCount++;//increase count first
+            mp.login(playerCount);
+        } else {//reset count
+            playerCount = 0;
+        }
+    }
+    
+    //checking player login
+    private void checkLoginDetails() {
+        //handles null/ basically if, sets it to empty string " " so can display wrong credentials
+        String name = (!mp.getUserName().trim().isEmpty()) ? mp.getUserName().trim() : " ";
+        String password = (!mp.getPassword().isEmpty()) ? mp.getPassword() : " ";
+        
+        //if wrong display wrong | guards against same player twice
+        if (name.equalsIgnoreCase(p1Name) || name.equalsIgnoreCase(p2Name) || name.equalsIgnoreCase(" ")
+                || !playerDB.checkUserNameAndPassword(name, password))//checks players name & password
+        {
+            System.out.println("Password is wrong: " + password);
+            mp.wrongCredentials();
+        }
+        else {//checks users credentials
+            if (playerDB.checkUserNameAndPassword(name, password)) {
+                System.out.println("correct");
+                
+                setPlayerNames(name);//sets the name and score
+
+                //dispose frame calls login again but for player 2
+                mp.disposeLoginFrame();
+                login();
+            }
+            
+        }
+        
+        launchGame();//checks if both players login then start game
+        
+    }
+    
+    //sets the player1 and player2 names and scores
+    private void setPlayerNames(String name) {
+        switch(playerCount) {//sets name based on playerCount
+            case 1 -> {
+                p1Name  = name;
+                p1Score = playerDB.getPlayerScore(name);
+            }
+            case 2 -> {
+                p2Name  = name;
+                p2Score = playerDB.getPlayerScore(name);
+            }
+        }
+        
+    }
+    
+    //launches game when both players are logged in
+    private void launchGame() {
+        if (p1Name != null && p2Name!= null) startBoardPanel();
     }
     
     //resets the boolean so can play again
     public static void setOneJFrameInstanceFalse() {
         oneJFrameInstance = false;
     }
-    
-    //checking player login
     
     //starts the chessGame | calls boardPanel
     private void startBoardPanel() {
@@ -87,7 +153,7 @@ public class MenuController implements ActionListener {
         
     }
     
-    //displays the rules, had help from ChatGPT
+    //displays the rules
     private void rules() {
         String helpText = """
             CHESS RULES
@@ -115,20 +181,7 @@ public class MenuController implements ActionListener {
             • Illegal moves highlighted in red
             """;
             
-        JTextArea textArea = new JTextArea(helpText);
-        textArea.setEditable(false);
-        textArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
-        textArea.setBackground(new Color(240, 240, 240));
-        
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new Dimension(600, 600));
-        
-        JOptionPane.showMessageDialog(
-            null,
-            scrollPane,
-            "Chess Rules & Help",
-            JOptionPane.INFORMATION_MESSAGE
-        );
+        mp.rulesWindow(helpText);//opens textArea
     }
     
 }

@@ -28,6 +28,10 @@ public class WhitePlayerPanel extends JPanel {
     //objects instance
     private final BoardPanel board;
     
+    //instance variables
+    private final String w_name = MenuController.getP1Name();
+    private final int w_score = MenuController.getP1Score();
+    
     //integer sizes
     private final int panelWidth;
     private final int panelHeight = 60;
@@ -88,9 +92,9 @@ public class WhitePlayerPanel extends JPanel {
         
         //--------------------- drawing the playerName --------------------
         g2.setColor(Color.WHITE);
-        g2.drawString("Player1 Name", 60, halfPanelHeight);
+        g2.drawString(w_name, 60, halfPanelHeight);
         g2.setFont(SCORE_FONT);
-        g2.drawString("Score: 20", 60, panelHeight - 7);
+        g2.drawString("Score: " + w_score, 60, panelHeight - 7);
         
         //----------------- drawing indicating for playerTurn -----------------
         //gettingt he fontMetrics
