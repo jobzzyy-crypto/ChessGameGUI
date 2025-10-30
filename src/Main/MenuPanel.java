@@ -44,8 +44,9 @@ public class MenuPanel extends JPanel {
     private JButton loginButton;
     private final JDialog loginDialog = new JDialog();
     
-    //JFrame for userLogin
+    //JFrames
     private JFrame loginFrame;
+    private JFrame frame;
     
     //JPanel
     private final JPanel buttonPanel;
@@ -191,6 +192,29 @@ public class MenuPanel extends JPanel {
     //display wrong credentials
     public void wrongCredentials() {
         JOptionPane.showMessageDialog(loginDialog, "Invalid credentials!");
+    }
+    
+    //calls boardPanel to startGame
+    public void startBoardPanel() {
+        frame = new JFrame("MyChessGame");
+
+        BoardPanel board = new BoardPanel();//temporary
+        WhitePlayerPanel whitePanel = new WhitePlayerPanel(board);
+        BlackPlayerPanel blackPanel = new BlackPlayerPanel(board);
+
+        board.setWhiteBlackPanel(whitePanel, blackPanel);
+
+        frame.setSize(720, 760);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setResizable(false);
+
+        frame.add(board, BorderLayout.CENTER);
+        frame.add(blackPanel, BorderLayout.NORTH);
+        frame.add(whitePanel, BorderLayout.SOUTH);
+        board.launchGame();
+        frame.pack();
     }
     
 }

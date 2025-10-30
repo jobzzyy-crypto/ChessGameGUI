@@ -30,9 +30,6 @@ public class MenuController implements ActionListener {
     private static int p1Score;
     private static int p2Score;
     
-    //JFrame
-    private JFrame frame;
-
     //constructor
     public MenuController(MenuPanel mp) {
         this.mp  = mp;
@@ -141,7 +138,7 @@ public class MenuController implements ActionListener {
     
     //launches game when both players are logged in
     private void launchGame() {
-        if (p1Name != null && p2Name!= null) startBoardPanel();
+        if (p1Name != null && p2Name!= null) startGame();
     }
     
     //resets the boolean so can play again
@@ -150,30 +147,11 @@ public class MenuController implements ActionListener {
     }
     
     //starts the chessGame | calls boardPanel
-    private void startBoardPanel() {
-        
+    private void startGame() {
+        //make sures theres only one instance of this
         if (!oneJFrameInstance) {
-            frame = new JFrame("MyChessGame");
-
-            BoardPanel board = new BoardPanel();//temporary
-            WhitePlayerPanel whitePanel = new WhitePlayerPanel(board);
-            BlackPlayerPanel blackPanel = new BlackPlayerPanel(board);
-
-            board.setWhiteBlackPanel(whitePanel, blackPanel);
-
-            frame.setSize(720, 760);
-            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-            frame.setResizable(false);
-
-            frame.add(board, BorderLayout.CENTER);
-            frame.add(blackPanel, BorderLayout.NORTH);
-            frame.add(whitePanel, BorderLayout.SOUTH);
-            board.launchGame();
-            frame.pack();
-            
-            oneJFrameInstance = true;//make sures theres only one instance of this
+            mp.startBoardPanel();
+            oneJFrameInstance = true;
             
         }
         
