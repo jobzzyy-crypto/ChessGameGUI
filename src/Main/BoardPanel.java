@@ -42,6 +42,9 @@ public class BoardPanel extends JPanel implements Runnable {
     ChessBoard board = new ChessBoard();
     Mouse mouse = new Mouse();
     
+    //variabel for winner color
+    public static int WINNER = -1;
+    
     //for retry & quit buttons
     private int retry_pos_x1, retry_pos_x2, retry_pos_y1, retry_pos_y2;
     private int quit_pos_x1, quit_pos_x2, quit_pos_y1, quit_pos_y2;
@@ -66,9 +69,11 @@ public class BoardPanel extends JPanel implements Runnable {
     boolean gameOver;
     boolean stalemate;
     boolean abortGame;
+    boolean updateDate = false;
     
     //resignation
     private int didWhiteResign;
+    private int instanceCount = 0;//this for one time things
     
     //list for storing the pieces
     public static ArrayList<Piece> capturedP = new ArrayList<>();
@@ -91,8 +96,8 @@ public class BoardPanel extends JPanel implements Runnable {
         //places the chess pieces
 //        setPieces();
 //        testing();
-//        checkMate();
-        promotingPiece();
+        checkMate();
+//        promotingPiece();
         
         copyPieces(pieces, simPieces);
         
@@ -110,9 +115,11 @@ public class BoardPanel extends JPanel implements Runnable {
         gameOver = false;
         stalemate = false;
         abortGame = false;
-        
+        instanceCount = 0;
+        WINNER = -1;
         currentColor = WHITE;
         
+        repaintPlayerPanels();//call repaint to reset playerPanel screen
     }
     
     public void setDidWhiteResign(int color) {
@@ -256,8 +263,7 @@ public class BoardPanel extends JPanel implements Runnable {
             promoting();
 
             //after moveConfirm, activate player indicator
-            wPlayer.repaint();
-            bPlayer.repaint();
+            repaintPlayerPanels();
 
         } else if (!gameOver && !stalemate && !abortGame) {
 
@@ -318,14 +324,15 @@ public class BoardPanel extends JPanel implements Runnable {
                     }
                     
                     //after moveConfirm, activate player indicator
-                    wPlayer.repaint();
-                    bPlayer.repaint();
+                    repaintPlayerPanels();
 
                 }
 
             }
             
         } else if (gameOver || abortGame || stalemate) {
+            setWinner();
+            
             if (mouse.pressed) {
                 gameOverScreenOptions();
             }
@@ -577,6 +584,25 @@ public class BoardPanel extends JPanel implements Runnable {
     //-------------- ABORT GAME ------------------
     public void abortGame() {
         abortGame = true;
+    }
+    
+    //---------------- SETS THE WINNNER ----------
+    private void setWinner() {
+        //checkmate
+        if (gameOver) WINNER = currentColor;
+        
+        //staleMate
+        if (stalemate) WINNER = 2;
+        
+        //abortGame; since didWhiteResign is always white we take opposite of it
+        if (abortGame) WINNER = (didWhiteResign == WHITE) ? BLACK : WHITE;
+
+        if (instanceCount == 0) {
+            instanceCount = 1;
+            repaintPlayerPanels();
+        }
+        
+        System.out.println(WINNER);
     }
     
     //------------ CHECKING CASTLING ----------------
@@ -908,6 +934,12 @@ public class BoardPanel extends JPanel implements Runnable {
         
 //        g2.setColor(new Color(245, 43, 0, 180));
 //        g2.fillRect(x1, y1, x2, y2);
+    }
+    
+    //repaints the playerPanels
+    private void repaintPlayerPanels() {
+        wPlayer.repaint();
+        bPlayer.repaint();
     }
     
 }

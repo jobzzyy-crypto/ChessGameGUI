@@ -94,7 +94,18 @@ public class WhitePlayerPanel extends JPanel {
         g2.setColor(Color.WHITE);
         g2.drawString(w_name, 60, halfPanelHeight);
         g2.setFont(SCORE_FONT);
-        g2.drawString("Score: " + w_score, 60, panelHeight - 7);
+        
+        switch (BoardPanel.WINNER) {
+            case 0:
+                g2.drawString("Score: " + w_score + " - 5", 60, panelHeight - 7);
+                break;
+            case 1:
+                g2.drawString("Score: " + w_score + " + 10", 60, panelHeight - 7);
+                break;
+            default:
+                g2.drawString("Score: " + w_score, 60, panelHeight - 7);
+                break;
+        }
         
         //----------------- drawing indicating for playerTurn -----------------
         //gettingt he fontMetrics

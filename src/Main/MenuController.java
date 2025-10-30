@@ -5,10 +5,8 @@
 package Main;
 
 import DataBase.PlayerDB;
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
 
 /**
  *
@@ -54,6 +52,9 @@ public class MenuController implements ActionListener {
         }
         
     }
+    
+    //updates the player score
+    
     
     //calls login for both players
     private void login() {
