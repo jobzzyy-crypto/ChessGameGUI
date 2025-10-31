@@ -28,7 +28,6 @@ public class PlayerDB {
         
         //creates the chessPlayerInfo table
         createChessPlayerInfoTable();
-        
     }
     
     //get player score
@@ -55,7 +54,7 @@ public class PlayerDB {
     }
     
     //retrieves userdata from the database
-    private ResultSet getPlayerData() {
+    public ResultSet getPlayerData() {
         return dbmanager.queryPlayerDB("SELECT * FROM CHESSPLAYERDB");
     }
     
