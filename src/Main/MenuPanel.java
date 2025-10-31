@@ -69,7 +69,7 @@ public class MenuPanel extends JPanel {
         
         //buttonPanel
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(5, 1, 0, 20));
+        buttonPanel.setLayout(new GridLayout(4, 1, 0, 20));
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 100, 100, 100));
         
@@ -98,7 +98,7 @@ public class MenuPanel extends JPanel {
         
         //add buttons to panel
         buttonPanel.add(rankedButton);
-        buttonPanel.add(quickPlayButton);
+//        buttonPanel.add(quickPlayButton);
         buttonPanel.add(createUserButton);
         buttonPanel.add(optionButton);
         buttonPanel.add(exitButton);

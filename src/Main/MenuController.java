@@ -52,13 +52,18 @@ public class MenuController implements ActionListener {
             case "LOGIN"    -> checkLoginDetails();
             case "NEWUSER"  -> newUser();
             case "CREATE"   -> createNewPlayer();
-            case "QUICK"    -> quickPlay();
+//            case "QUICK"    -> quickPlay();
         }
         
     }
     
     //creates chessGame without login
     private void quickPlay() {
+        /*
+        we wanted to add a quickplay option where u do not need to 
+        login to play the game but we didnt have enough time to add
+        it in sooo.. yeah :)
+        */
         
     }
     
