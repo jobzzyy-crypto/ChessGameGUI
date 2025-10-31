@@ -6,8 +6,6 @@ Group: 11
 A fully-featured chess game built with Java Swing, implementing all standard chess rules with a clean graphical interface.
 
 ## Features
-
-## Features
 - **Complete Chess Implementation** - All standard rules including check, checkmate, castling, en passant, and pawn promotion
 - **Beautiful GUI** - Professional brown-themed interface with smooth piece dragging
 - **Player Statistics** - Apache Derby database tracks wins, losses, draws, and game history
