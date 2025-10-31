@@ -10,7 +10,7 @@ A fully-featured chess game built with Java Swing, implementing all standard che
 - **Beautiful GUI** - Professional brown-themed interface with smooth piece dragging
 - **Player Statistics** - Apache Derby database tracks wins, losses, draws, and game history
 - **Scoreboard System** - View players names and points
-- **Auto-Setup** - No installation or configuration required
+
 
 
 ### Visual Interface
@@ -31,6 +31,16 @@ A fully-featured chess game built with Java Swing, implementing all standard che
 - Use NetBeans 23
 - Any Java-supported operating system
 
-### Installation
-1. Clone the repository:
-2.  you can run the application in NetBeans 21 or 23
+### Troubleshooting!
+- Issue: GitHub displays a warning: “This type of file can harm your device”   and prevents editing of .class files.
+
+- Cause: class files are compiled Java bytecode, treated as binary             executables. GitHub restricts browser-based editing of such files to         prevent  potential security risks.
+- Note: I would suggest you should clone or downlod the zip file, then you     run the chess-game.
+
+
+
+
+
+
+
+
