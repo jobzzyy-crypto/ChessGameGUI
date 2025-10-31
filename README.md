@@ -7,11 +7,13 @@ A fully-featured chess game built with Java Swing, implementing all standard che
 
 ## Features
 
-### Core Gameplay
-- **Complete Chess Rules**: All standard moves including castling, en passant, and pawn promotion
-- **Check & Checkmate Detection**: Real-time threat detection and game termination
-- **Stalemate Detection**: Automatic draw recognition
-- **Turn-based Play**: Alternating moves between white and black players
+## Features
+- **Complete Chess Implementation** - All standard rules including check, checkmate, castling, en passant, and pawn promotion
+- **Beautiful GUI** - Professional brown-themed interface with smooth piece dragging
+- **Player Statistics** - Apache Derby database tracks wins, losses, draws, and game history
+- **Scoreboard System** - View player statistics and rankings
+- **Auto-Setup** - No installation or configuration required
+
 
 ### Visual Interface
 - **Graphical Board**: 8x8 chess board with traditional coloring
