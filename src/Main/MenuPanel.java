@@ -12,6 +12,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -69,7 +71,7 @@ public class MenuPanel extends JPanel {
         
         //buttonPanel
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(4, 1, 0, 20));
+        buttonPanel.setLayout(new GridLayout(5, 1, 0, 20));
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 100, 100, 100));
         
@@ -92,14 +94,14 @@ public class MenuPanel extends JPanel {
         createUserButton.setActionCommand("NEWUSER");
         createUserButton.addActionListener(mc);
         
-        JButton quickPlayButton = createButton("Quick Play");
-        quickPlayButton.setActionCommand("QUICK");
-        quickPlayButton.addActionListener(mc);
+        JButton ScoreButton = createButton("Score Board");
+        ScoreButton.setActionCommand("SCORE");
+        ScoreButton.addActionListener(mc);
         
         //add buttons to panel
         buttonPanel.add(rankedButton);
-//        buttonPanel.add(quickPlayButton);
         buttonPanel.add(createUserButton);
+        buttonPanel.add(ScoreButton);
         buttonPanel.add(optionButton);
         buttonPanel.add(exitButton);
         
@@ -195,9 +197,9 @@ public class MenuPanel extends JPanel {
         loginFrame.pack();
         loginFrame.setLocationRelativeTo(null);
 //        loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        loginFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+        loginFrame.addWindowListener(new WindowAdapter() {
             @Override//detects when you close the window
-            public void windowClosing(java.awt.event.WindowEvent e) {
+            public void windowClosing(WindowEvent e) {
                 mc.resetPlayerCount();
             }
         });
@@ -252,9 +254,9 @@ public class MenuPanel extends JPanel {
         loginFrame.pack();
         loginFrame.setLocationRelativeTo(null);
 //        loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        loginFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+        loginFrame.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
+            public void windowClosing(WindowEvent e) {
                 mc.resetCreateUserInstanceZero();
             }
         });

@@ -7,6 +7,12 @@ package Main;
 import DataBase.PlayerDB;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -20,7 +26,7 @@ public class MenuController implements ActionListener {
     
     //instance Objects
     private static PlayerDB playerDB = null;
-    private final MenuPanel mp;
+    private MenuPanel mp = null;
     
     //Static Variables
     private static boolean oneJFrameInstance;
@@ -28,6 +34,9 @@ public class MenuController implements ActionListener {
     private static String p2Name;
     private static int p1Score;
     private static int p2Score;
+    
+    //for storing the score
+    public static ArrayList<Player> playerList = new ArrayList<>();
     
     //constructor
     public MenuController(MenuPanel mp) {
@@ -64,10 +73,48 @@ public class MenuController implements ActionListener {
             case "LOGIN"    -> checkLoginDetails();
             case "NEWUSER"  -> newUser();
             case "CREATE"   -> createNewPlayer();
+            case "SCORE"    -> scoreBoard();
 //            case "QUICK"    -> quickPlay();
         }
         
     }
+    
+    //displaying the scoreBoard
+    private void scoreBoard() {
+        ResultSet rs = playerDB.getPlayerData();
+        
+        try {
+            rs.beforeFirst();
+            while(rs.next()) {
+                String name = rs.getString(1);
+                int score = rs.getInt(3);
+                
+                //adds to the playerList
+                playerList.add(new Player(name, score));
+            }
+            //sorts the arrayList inOrder
+            Collections.sort(playerList);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PlayerDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    //============================ DEBUGGING ==================================
+    public static void main(String[] args) {
+        MenuController mc = new MenuController(new MenuPanel());
+        Player p1 = new Player("James", 50);
+        Player p2 = new Player("Zinzan", 20);
+        Player p3 = new Player("Nova", 25);
+       
+        mc.scoreBoard();
+        
+        for (int i = 0; i < playerList.size(); i++) {
+            System.out.println(playerList.get(i).name + " : " + playerList.get(i).score);
+        }
+        
+    }
+    //=====================================================================
     
     //creates chessGame without login
     private void quickPlay() {
