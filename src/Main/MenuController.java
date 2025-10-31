@@ -52,7 +52,13 @@ public class MenuController implements ActionListener {
             case "LOGIN"    -> checkLoginDetails();
             case "NEWUSER"  -> newUser();
             case "CREATE"   -> createNewPlayer();
+            case "QUICK"    -> quickPlay();
         }
+        
+    }
+    
+    //creates chessGame without login
+    private void quickPlay() {
         
     }
     
