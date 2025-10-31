@@ -14,6 +14,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -23,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -32,10 +34,10 @@ import javax.swing.SwingConstants;
  * @author Jayden Tosul and JOb Rotoava
  */
 public class MenuPanel extends JPanel {
-    
+
     //object instance
     private final MenuController mc = new MenuController(this);
-    
+
     //JLabels & JButtons
     private final JLabel titleLabel;
     private JButton button;
@@ -47,109 +49,165 @@ public class MenuPanel extends JPanel {
     private JButton createNewUserButton;
     private JButton loginButton;
     private final JDialog loginDialog = new JDialog();
-    
+
     //JFrames
     public JFrame loginFrame;
     private JFrame frame;
-    
+    private JFrame scoreFrame;
+
     //JPanel
     private final JPanel buttonPanel;
     private JPanel loginPanel;
-    
+
     //font
     private final Font bFont = new Font("Arial", Font.BOLD, 24);
-    
+
     public MenuPanel() {
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
-        
+
         //draw title
         titleLabel = new JLabel("ChessGameGUI", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 48));
         titleLabel.setForeground(Color.BLACK);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
-        
+
         //buttonPanel
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(5, 1, 0, 20));
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 100, 100, 100));
-        
+
         //create ranked button
         JButton rankedButton = createButton("Play");
         rankedButton.setActionCommand("PLAY");
         rankedButton.addActionListener(mc);
-        
+
         //create options button
         JButton optionButton = createButton("Rules");
         optionButton.setActionCommand("RULES");
         optionButton.addActionListener(mc);
-        
+
         //create exit button
         JButton exitButton = createButton("Exit");
         exitButton.setActionCommand("EXIT");
         exitButton.addActionListener(mc);
-        
+
         JButton createUserButton = createButton("Create User");
         createUserButton.setActionCommand("NEWUSER");
         createUserButton.addActionListener(mc);
-        
+
         JButton ScoreButton = createButton("Score Board");
         ScoreButton.setActionCommand("SCORE");
         ScoreButton.addActionListener(mc);
-        
+
         //add buttons to panel
         buttonPanel.add(rankedButton);
         buttonPanel.add(createUserButton);
         buttonPanel.add(ScoreButton);
         buttonPanel.add(optionButton);
         buttonPanel.add(exitButton);
-        
+
         //add panel and Jlabel to frame
         add(titleLabel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.CENTER);
+
+    }
+
+    //displays the ScoreBoard | ChatGPT generated this
+    public void displayScoreBoard(ArrayList list) {
         
+        if (scoreFrame == null) {
+            scoreFrame = new JFrame("Scoreboard");
+            scoreFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            scoreFrame.setSize(300, 400);
+            scoreFrame.setLocationRelativeTo(null); // center
+            scoreFrame.setResizable(false);
+
+        } else {
+            scoreFrame.getContentPane().removeAll();
+        }
+        
+        // Table headers
+        String[] columnNames = {"Rank", "Name", "Score"};
+
+        // Table data
+        Object[][] data = new Object[list.size()][3];
+        for (int i = 0; i < list.size(); i++) {
+            Player p = (Player) list.get(i);
+            data[i][0] = i + 1;          // rank (since list is already sorted)
+            data[i][1] = capitalizeFirstLetter(p.name);         // or p.getName()
+            data[i][2] = p.score;        // or p.getScore()
+        }
+
+        JTable table = new JTable(data, columnNames);
+        table.setEnabled(false); // read-only
+        table.setRowHeight(24);
+
+        // Put table in scroll pane
+        scrollPane = new JScrollPane(table);
+        scoreFrame.add(scrollPane, BorderLayout.CENTER);
+        scoreFrame.addWindowListener(new WindowAdapter() {
+            @Override//detects when you close the window
+            public void windowClosing(WindowEvent e) {
+                mc.resetScoreBoardInstance();
+            }
+        });
+        scoreFrame.setVisible(true);
     }
     
+    //this is just a helper method to capitalize the first letter for displaying
+    private String capitalizeFirstLetter(String name) {
+        String s = (name.charAt(0) + "").toUpperCase();//capitalize first letter
+        //adds the rest to string
+        for (int i = 1; i < name.length(); i++) {
+            s = s + name.charAt(i);
+        }
+        
+        return s;
+    }
+
     //getters for userName & password
-    public String getUserName() { 
+    public String getUserName() {
         return userName.getText();
     }
+
     public String getPassword() {
         return userPassword.getText();
     }
+
     public String getCreatePassword() {//gets new password 4 new user
         return createPassword.getText();
     }
-    
+
     //method for creating the buttons
     private JButton createButton(String name) {
         button = new JButton(name);
         button.setFont(bFont);
         button.setPreferredSize(new Dimension(200, 60));
-        
+
         return button;
     }
-    
+
     //displays the rule window
     public void rulesWindow(String text) {
         textArea = new JTextArea(text);
         textArea.setEditable(false);
         textArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
         textArea.setBackground(new Color(240, 240, 240));
-        
+
         scrollPane = new JScrollPane(textArea);
         scrollPane.setPreferredSize(new Dimension(600, 600));
-        
+
         JOptionPane.showMessageDialog(
-            null,
-            scrollPane,
-            "Chess Rules & Help",
-            JOptionPane.INFORMATION_MESSAGE
+                null,
+                scrollPane,
+                "Chess Rules & Help",
+                JOptionPane.INFORMATION_MESSAGE
         );
-        
+
     }
-    
+
     //displays the loginPanel / had help from uncle ChatGPT
     public void login(int p_count) {
         loginFrame = new JFrame("Player " + p_count + " Login");
@@ -205,9 +263,9 @@ public class MenuPanel extends JPanel {
         });
         loginFrame.setResizable(false);
         loginFrame.setVisible(true);
-        
+
     }
-    
+
     public void createNewUser() {
         loginFrame = new JFrame("Create User Login");
         loginPanel = new JPanel(new GridBagLayout());
@@ -263,25 +321,26 @@ public class MenuPanel extends JPanel {
         loginFrame.setResizable(false);
         loginFrame.setVisible(true);
     }
-    
+
     public void disposeLoginFrame() {
         loginFrame.dispose();
     }
-    
+
     //display wrong credentials
     public void wrongCredentials() {
         JOptionPane.showMessageDialog(loginDialog, "Invalid credentials!");
     }
+
     public void emptyPassword() {
         JOptionPane.showMessageDialog(loginDialog, """
                                                    Name or Password cannot be
                                                                     empty""");
     }
-    
+
     public void passwordTooLong() {
         JOptionPane.showMessageDialog(loginDialog, "Name or Password too long");
     }
-    
+
     //calls boardPanel to startGame
     public void startBoardPanel() {
         frame = new JFrame("MyChessGame");
@@ -304,5 +363,5 @@ public class MenuPanel extends JPanel {
         board.launchGame();
         frame.pack();
     }
-    
+
 }

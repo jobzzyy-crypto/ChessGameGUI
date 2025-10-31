@@ -23,6 +23,7 @@ public class MenuController implements ActionListener {
     //instance variables
     private int playerCount = 0;
     private int createUserInstance = 0;
+    private int scoreBoardInstance = 0;
     
     //instance Objects
     private static PlayerDB playerDB = null;
@@ -61,6 +62,7 @@ public class MenuController implements ActionListener {
         }
         this.playerCount = 0;
     }
+    public void resetScoreBoardInstance() {this.scoreBoardInstance = 0;}
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -81,25 +83,37 @@ public class MenuController implements ActionListener {
     
     //displaying the scoreBoard
     private void scoreBoard() {
-        ResultSet rs = playerDB.getPlayerData();
         
-        try {
+        if (scoreBoardInstance == 0) {
+            scoreBoardInstance++;
+            getPlayerScores();
+            mp.displayScoreBoard(playerList);
+        }
+    }
+    
+    //retrives playerSCores
+    private void getPlayerScores() {
+        ResultSet rs = playerDB.getPlayerData();
+        playerList.clear();//clears the list first/handles duplicates
+        
+        try {//retrives playerDatabase and store in list
             rs.beforeFirst();
-            while(rs.next()) {
+            while (rs.next()) {
                 String name = rs.getString(1);
                 int score = rs.getInt(3);
-                
+
                 //adds to the playerList
                 playerList.add(new Player(name, score));
             }
             //sorts the arrayList inOrder
             Collections.sort(playerList);
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(PlayerDB.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
+    
     //============================ DEBUGGING ==================================
     public static void main(String[] args) {
         MenuController mc = new MenuController(new MenuPanel());
