@@ -3,7 +3,7 @@ Group: 11
 
 # ChessGameGUI
 
-A fully-featured chess game built with Java Swing, implementing all standard chess rules with a clean graphical interface.
+A fully-featured chess game built with Java Swing, implementing all standard chess rules with a clean graphical interface. 
 
 ## Features
 - **Complete Chess Implementation** - All standard rules including check, checkmate, castling, en passant, and pawn promotion
