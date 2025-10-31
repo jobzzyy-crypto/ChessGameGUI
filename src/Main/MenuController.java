@@ -53,6 +53,7 @@ public class MenuController implements ActionListener {
     
     //resetting the counters
     public void resetCreateUserInstanceZero() {this.createUserInstance = 0;}
+    public void resetScoreBoardInstance() {this.scoreBoardInstance = 0;}
     public void resetPlayerCount() {
         if (p1Name != null) {
             p1Name = null;
@@ -62,7 +63,6 @@ public class MenuController implements ActionListener {
         }
         this.playerCount = 0;
     }
-    public void resetScoreBoardInstance() {this.scoreBoardInstance = 0;}
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -78,6 +78,16 @@ public class MenuController implements ActionListener {
             case "SCORE"    -> scoreBoard();
 //            case "QUICK"    -> quickPlay();
         }
+        
+    }
+    
+    //creates chessGame without login
+    private void quickPlay() {
+        /*
+        we wanted to add a quickplay option where u do not need to 
+        login to play the game but we didnt have enough time to add
+        it in sooo.. yeah :)
+        */
         
     }
     
@@ -129,16 +139,6 @@ public class MenuController implements ActionListener {
         
     }
     //=====================================================================
-    
-    //creates chessGame without login
-    private void quickPlay() {
-        /*
-        we wanted to add a quickplay option where u do not need to 
-        login to play the game but we didnt have enough time to add
-        it in sooo.. yeah :)
-        */
-        
-    }
     
     //creates new user
     private void newUser() {
@@ -202,6 +202,7 @@ public class MenuController implements ActionListener {
         if (playerCount < 2 && playerCount >= 0 && !oneJFrameInstance) {
             playerCount++;//increase count first
             mp.login(playerCount);
+
         } else {//reset count
             playerCount = 0;
         }

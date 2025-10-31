@@ -232,12 +232,6 @@ public class Piece {
         return null;    //if no piece there
     }
 
-//    --------- This somehow causes some bugs to appear affecting other pieces ---------
-//    public boolean isQueenPathClear(int targetCol, int targetRow) {
-//        return isStraightLineClear(targetCol, targetRow) &&  //checks rook movement
-//                isDiagonalLineClear(targetCol, targetRow);   //checks bishop movement
-//    }
-
     //------------------- IMAGES ---------------------------------
     public final BufferedImage getImage(String imageName) { //gets the images
 //        BufferedImage image = null;

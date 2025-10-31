@@ -69,14 +69,13 @@ public class BoardPanel extends JPanel implements Runnable {
     boolean gameOver;
     boolean stalemate;
     boolean abortGame;
-    boolean updateDate = false;
     
     //resignation
     private int didWhiteResign;
     private int instanceCount = 0;//this for one time things
     
     //list for storing the pieces
-    public static ArrayList<Piece> capturedP = new ArrayList<>();
+    public static ArrayList<Piece> capturedP = new ArrayList<>();//wanted to use this to display captured pieces but didnt have time
     public static ArrayList<Piece> pieces = new ArrayList<>();
     public static ArrayList<Piece> simPieces = new ArrayList<>();   //backup list
     public static ArrayList<Piece> promoPieces = new ArrayList<>();
@@ -334,7 +333,7 @@ public class BoardPanel extends JPanel implements Runnable {
             }
             
         } else if (gameOver || abortGame || stalemate) {
-            setWinner();
+            setWinner();//finds the winner
             
             if (mouse.pressed) {
                 gameOverScreenOptions();
@@ -470,15 +469,6 @@ public class BoardPanel extends JPanel implements Runnable {
             System.err.println("King can move");
             return false;
         }
-        
-//        //check if there are multiple pieces attacking
-//        int attackers = 0;
-//        for (Piece piece : simPieces) {
-//            if (piece.color != currentColor) {  //make sure its not the same color
-//                if (piece.canMove(king.col, king.row)) attackers++;
-//                if (attackers >= 2) return true;
-//            }
-//        }
         
         //check if a defender can capture the piece
         for (Piece piece : simPieces) {
@@ -782,17 +772,6 @@ public class BoardPanel extends JPanel implements Runnable {
         }
 
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     
