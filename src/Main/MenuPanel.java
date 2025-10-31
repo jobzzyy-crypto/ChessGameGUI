@@ -194,7 +194,13 @@ public class MenuPanel extends JPanel {
         loginFrame.add(loginPanel);
         loginFrame.pack();
         loginFrame.setLocationRelativeTo(null);
-        loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//        loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        loginFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override//detects when you close the window
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                mc.resetPlayerCount();
+            }
+        });
         loginFrame.setResizable(false);
         loginFrame.setVisible(true);
         
@@ -245,7 +251,13 @@ public class MenuPanel extends JPanel {
         loginFrame.add(loginPanel);
         loginFrame.pack();
         loginFrame.setLocationRelativeTo(null);
-        loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//        loginFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        loginFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                mc.resetCreateUserInstanceZero();
+            }
+        });
         loginFrame.setResizable(false);
         loginFrame.setVisible(true);
     }

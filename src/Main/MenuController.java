@@ -40,6 +40,18 @@ public class MenuController implements ActionListener {
     public static String getP2Name() {return p2Name;}
     public static int getP1Score() {return p1Score;}
     public static int getP2Score() {return p2Score;}
+    
+    //resetting the counters
+    public void resetCreateUserInstanceZero() {this.createUserInstance = 0;}
+    public void resetPlayerCount() {
+        if (p1Name != null) {
+            p1Name = null;
+            p2Name = null;
+            p1Score = 0;
+            p2Score = 0;
+        }
+        this.playerCount = 0;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -73,9 +85,7 @@ public class MenuController implements ActionListener {
             createUserInstance = 1;
             mp.createNewUser();
         }
-        if (!mp.loginFrame.isActive()) {
-            createUserInstance = 0;
-        }
+        
     }
     
     //creates the new user
@@ -127,7 +137,8 @@ public class MenuController implements ActionListener {
     
     //calls login for both players
     private void login() {
-        if (playerCount < 2 && playerCount >= 0) {
+        
+        if (playerCount < 2 && playerCount >= 0 && !oneJFrameInstance) {
             playerCount++;//increase count first
             mp.login(playerCount);
         } else {//reset count
