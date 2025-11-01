@@ -83,6 +83,7 @@ public class WhitePlayerPanel extends JPanel {
     
     //this is just a helper method to capitalize the first letter for displaying
     private String capitalizeFirstLetter(String name) {
+        name = name.toLowerCase();
         String s = (name.charAt(0) + "").toUpperCase();//capitalize first letter
         //adds the rest to string
         for (int i = 1; i < name.length(); i++) {

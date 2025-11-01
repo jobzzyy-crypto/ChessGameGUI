@@ -130,19 +130,19 @@ public class MenuController implements ActionListener {
     tried to test with the JUnit test to test our methods but it keeps failing
     or not loading up so this is like the other way tested our methods
     */
-    public static void main(String[] args) {
-        MenuController mc = new MenuController(new MenuPanel());
-        Player p1 = new Player("James", 50);
-        Player p2 = new Player("Zinzan", 20);
-        Player p3 = new Player("Nova", 25);
-       
-        mc.scoreBoard();
-        
-        for (int i = 0; i < playerList.size(); i++) {
-            System.out.println(playerList.get(i).name + " : " + playerList.get(i).score);
-        }
-        
-    }
+//    public static void main(String[] args) {
+//        MenuController mc = new MenuController(new MenuPanel());
+//        Player p1 = new Player("James", 50);
+//        Player p2 = new Player("Zinzan", 20);
+//        Player p3 = new Player("Nova", 25);
+//       
+//        mc.scoreBoard();
+//        
+//        for (int i = 0; i < playerList.size(); i++) {
+//            System.out.println(playerList.get(i).name + " : " + playerList.get(i).score);
+//        }
+//        
+//    }
     //=====================================================================
     
     //creates new user

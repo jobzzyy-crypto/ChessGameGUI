@@ -97,6 +97,7 @@ public class BoardPanel extends JPanel implements Runnable {
 //        testing();
 //        checkMate();
 //        promotingPiece();
+//        testingStalemate();
         
         copyPieces(pieces, simPieces);
         
@@ -210,6 +211,12 @@ public class BoardPanel extends JPanel implements Runnable {
         pieces.add(new Rook(BLACK, 7, 0));
         pieces.add(new Queen(WHITE, 3, 7));
         pieces.add(new Bishop(WHITE, 5, 7));
+    }
+    private void testingStalemate() {
+        pieces.add(new King(WHITE, 5, 7));
+        pieces.add(new King(BLACK, 4, 0));
+        pieces.add(new Rook(BLACK, 7, 6));
+        pieces.add(new Queen(BLACK, 2, 6));
     }
     //=========================================================================
     
