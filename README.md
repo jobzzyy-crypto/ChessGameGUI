@@ -35,7 +35,7 @@ A fully-featured chess game built with Java Swing, implementing all standard che
 - Issue: GitHub displays a warning: “This type of file can harm your device”   and prevents editing of .class files.
 
 - Cause: class files are compiled Java bytecode, treated as binary             executables. GitHub restricts browser-based editing of such files to         prevent  potential security risks.
-- Note: I would suggest you should clone or downlod the zip file, then you     run the chess-game.
+- Note: I would suggest you should clone or downlod the zip file, then you     run the Chess-Game.
 
 
 
