@@ -125,6 +125,11 @@ public class MenuController implements ActionListener {
     }
     
     //============================ DEBUGGING ==================================
+    /*
+    We didnt have many JUnit tests because it was somehow not working, like we 
+    tried to test with the JUnit test to test our methods but it keeps failing
+    or not loading up so this is like the other way tested our methods
+    */
     public static void main(String[] args) {
         MenuController mc = new MenuController(new MenuPanel());
         Player p1 = new Player("James", 50);
